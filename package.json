@@ -1,0 +1,11 @@
+{
+  "name": "gemini-mcp",
+  "version": "1.0.0",
+  "type": "module",
+  "bin": {
+    "gemini-mcp": "./server.js"
+  },
+  "dependencies": {},
+  "command": "node",
+"args": ["path/to/server.js"]
+}
