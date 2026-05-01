@@ -4,7 +4,7 @@ import { spawn } from "child_process";
 import readline from "readline";
 
 // IMPORTANT: Ensure this path uses double backslashes on Windows
-const PROJECT_DIR = "C:\\Users\\jassw\\Documents\\GitHub\\personalAI"; 
+const PROJECT_DIR = process.env.GEMINI_PROJECT_DIR || "C:\\Users\\jassw\\Documents\\GitHub\\personalAI"; 
 
 // Log startup info to stderr
 process.stderr.write(`gemini-mcp server starting...\n`);
@@ -116,9 +116,13 @@ function respondError(id, code, message) {
 
 function runGemini(prompt) {
   return new Promise((resolve, reject) => {
-    process.stderr.write(`Executing gemini ask "${prompt}" --yes in ${PROJECT_DIR}\n`);
+    // Escape double quotes in the prompt for the shell command
+    const escapedPrompt = prompt.replace(/"/g, '\\"');
+    const command = `gemini --prompt "${escapedPrompt}" --yolo --output-format text`;
     
-    const proc = spawn("gemini", ["ask", prompt, "--yes"], {
+    process.stderr.write(`Executing: ${command} in ${PROJECT_DIR}\n`);
+    
+    const proc = spawn(command, {
       cwd: PROJECT_DIR,
       shell: true 
     });

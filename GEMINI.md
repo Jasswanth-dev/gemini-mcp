@@ -7,7 +7,7 @@ A Model Context Protocol (MCP) server that provides a bridge to the Gemini CLI, 
 - **Type:** Node.js MCP Server
 - **Main Entry Point:** `server.js`
 - **Core Technology:** JavaScript (ES Modules), Node.js `child_process` (spawn), `readline`.
-- **Primary Tool:** `run_gemini` - Executes `gemini ask <prompt>` in a specified directory.
+- **Primary Tool:** `run_gemini` - Executes `gemini --prompt <prompt> --yolo` in a specified directory.
 
 ## Architecture
 
@@ -43,13 +43,16 @@ Add the following to your Claude Desktop configuration file (usually `%APPDATA%\
   "mcpServers": {
     "gemini": {
       "command": "node",
-      "args": ["C:\\path\\to\\gemini-mcp\\server.js"]
+      "args": ["C:\\path\\to\\gemini-mcp\\server.js"],
+      "env": {
+        "GEMINI_PROJECT_DIR": "C:\\path\\to\\your\\project"
+      }
     }
   }
 }
 ```
 
-**Note:** Ensure `PROJECT_DIR` in `server.js` points to the directory where you want Gemini commands to run.
+**Note:** The server supports the `GEMINI_PROJECT_DIR` environment variable to specify the target directory. If not provided, it defaults to a pre-configured path in `server.js`.
 
 ## Development Conventions
 
